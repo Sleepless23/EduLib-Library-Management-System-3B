@@ -46,7 +46,7 @@ This is to ensure quality control and prevent accidental pushing of buggy code t
 ---
 
 ## 📜 Project Architecture:
-- The file structure of the project, when finished, should look something like this:
+The file structure of the project, when finished, should look something like this:
 
 ```
 edulib-system/
