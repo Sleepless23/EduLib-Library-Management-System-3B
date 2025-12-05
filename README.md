@@ -45,6 +45,28 @@ This is to ensure quality control and prevent accidental pushing of buggy code t
 
 ---
 
+## 📜 Project Architecture:
+- The file structure of the project, when finished, should look something like this:
+
+```
+edulib-system/
+│
+├── docs/                  # SDLC & Waterfall documentation
+├── src/                   # Source Code
+│   ├── database.py        # SQL connections & table creation
+│   ├── models.py          # Data classes (Book, Student)
+│   ├── library_service.py # Logic (Borrow, Return, Add logic)
+│   ├── main.py            # The Menu / User Interface
+│   └── __init__.py        # Makes 'src' a package
+│
+├── tests/                 # Unit tests
+├── .gitignore             # Git ignore file
+├── README.md              # Project documentation
+└── requirements.txt       # Dependencies
+```
+
+---
+
 ## ✅ Project Task List (TODO)
 
 Please check off items as you complete them by updating this README in your PR (Pull Request).
