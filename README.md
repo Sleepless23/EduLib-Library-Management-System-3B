@@ -10,9 +10,9 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
 
 ### Installation & Setup
 
-1.  **Clone the repository:**
+1.  **Clone the branch:**
     ```bash
-    git clone <placeholder>
+    git clone -b development https://github.com/Sleepless23/EduLib-Library-Management-System-3B.git
     cd edulib-system
     ```
 
