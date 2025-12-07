@@ -79,9 +79,12 @@ Please check off items as you complete them by updating this README in your PR (
 
 ### Phase 2: Book Management (`src/library_service.py`)
 - [x] Add Book Function
-- [ ] Edit Book Details Function
-- [ ] Delete Book Function
-- [ ] **Optional:** Google Books API integration to auto-fill details by ISBN
+- [x] Edit Book Details Function
+- [x] Delete Book Function
+- [x] **Optional:** Google Books API integration to auto-fill details by ISBN
+- **Notes from Bon: https://books.google.com/  (You can find the list of books and their ISBN here) and completed everything else in the phase 2**
+- **Another Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)**
+
 
 ### Phase 3: Student Management
 - [ ] Register Student (Name, Class, School, Contact)

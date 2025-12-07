@@ -64,3 +64,22 @@ def initialize_db():
             conn.close()
     else:
         print("Error! Cannot create the database connection.")
+
+def update_book(book_id, title, author, genre, quantity):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE books
+        SET title = ?, author = ?, genre = ?, quantity = ?
+        WHERE id = ?
+    """, (title, author, genre, quantity, book_id))
+    conn.commit()
+    conn.close()
+
+
+def delete_book(book_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM books WHERE id = ?", (book_id,))
+    conn.commit()
+    conn.close()
