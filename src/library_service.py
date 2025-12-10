@@ -44,6 +44,37 @@ def return_book(loan_id):
     """
     print("Feature not implemented yet.")
 
+def view_student_history(student_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    try:
+        sql = """
+        SELECT loan_id, book_isbn, loan_date, due_date, return_date, status
+        FROM loans
+        WHERE student_id = ?
+        ORDER BY loan_date DESC
+        """
+        cursor.execute(sql, (student_id,))
+        rows = cursor.fetchall()
+
+        if not rows:
+            print("No loan history for this student.")
+            return
+
+        print(f"{'Loan ID':<8} {'ISBN':<15} {'Loan Date':<12} {'Due Date':<12} {'Return Date':<12} {'Status'}")
+        print("-" * 70)
+
+        for loan_id, isbn, loan_date, due_date, return_date, status in rows:
+            print(f"{loan_id:<8} {isbn:<15} {loan_date:<12} {due_date:<12} {str(return_date):<12} {status}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    finally:
+        conn.close()
+
+
+
 def generate_report_books_per_school():
     # Generates a report of books distribution.
     print("Feature not implemented yet.")

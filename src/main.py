@@ -8,14 +8,15 @@ def print_menu():
     print("3. Borrow Book")
     print("4. Return Book")
     print("5. Generate Reports")
-    print("6. Exit")
+    print("6. View Student History")
+    print("7. Exit")
 
 def main():
     initialize_db()
 
     while True:
         print_menu()
-        choice = input("Select an option (1-6): ")
+        choice = input("Select an option (1-7): ")
 
         if choice == '1':
             isbn = input("Enter ISBN: ")
@@ -41,6 +42,10 @@ def main():
             print("Feature currently under development.")
 
         elif choice == '6':
+            student_id = int(input("Enter Student ID: "))
+            service.view_student_history(student_id)
+
+        elif choice == '7':
             print("Exiting system. Goodbye!")
             break
         
