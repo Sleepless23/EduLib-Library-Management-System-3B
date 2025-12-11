@@ -1,6 +1,7 @@
 from src.database import initialize_db, create_connection
 from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book
-from src.library_service import register_student, edit_student, show_students
+# Added view_student_history to imports to support the feature from 'charles' branch
+from src.library_service import register_student, edit_student, show_students, view_student_history
 
 def print_menu():
     print("\n--- EduLib Library System ---")
@@ -9,16 +10,17 @@ def print_menu():
     print("3. Borrow Book")
     print("4. Return Book")
     print("5. Generate Reports")
-    print("6. Edit Book Details")
-    print("7. Delete Book")
-    print("8. Exit")
+    print("6. View Student History")
+    print("7. Edit Book Details")     
+    print("8. Delete Book")           
+    print("9. Exit")
 
 def main():
     initialize_db()
 
     while True:
         print_menu()
-        choice = input("Select an option (1-8): ").strip()
+        choice = input("Select an option (1-9): ").strip()
 
         # Add Book choice
         if choice == '1':
@@ -85,8 +87,17 @@ def main():
         elif choice == '5':
             print("Feature currently under development.")
 
-        # Edit Book choice
+        # View Student History
         elif choice == '6':
+            try:
+                student_id = int(input("Enter Student ID: ").strip())
+                # Removed 'service.' prefix to match the functional style of the rest of the file
+                view_student_history(student_id)
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
+
+        # Edit Book choice
+        elif choice == '7':
             isbn = input("Enter ISBN of book to edit: ").strip()
 
             conn = create_connection()
@@ -114,8 +125,8 @@ def main():
                 edit_book(book_id, title, author, genre, qty)
                 print("Book updated successfully.")
 
-        # Delete Book choice
-        elif choice == '7':
+        # Delete Book choice 
+        elif choice == '8':
             isbn = input("Enter ISBN of book to delete: ").strip()
 
             conn = create_connection()
@@ -136,7 +147,7 @@ def main():
                     print("Deletion cancelled.")
 
         # Exit choice
-        elif choice == '8':
+        elif choice == '9':
             print("Exiting system. Goodbye!")
             break
 
