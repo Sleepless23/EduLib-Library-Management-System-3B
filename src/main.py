@@ -1,10 +1,11 @@
 from src.database import initialize_db, create_connection
 from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book
+from src.library_service import register_student, edit_student, show_students
 
 def print_menu():
     print("\n--- EduLib Library System ---")
     print("1. Add New Book")
-    print("2. Register Student")
+    print("2. Register, Edit and Show Student")
     print("3. Borrow Book")
     print("4. Return Book")
     print("5. Generate Reports")
@@ -37,7 +38,40 @@ def main():
 
         # Register Student choice
         elif choice == '2':
-            print("Feature currently under development.")
+            while True:
+                print("\n=== Student Management ===")
+                print("1. Register Student")
+                print("2. Edit Student Details")
+                print("3. Show all students")
+                print("0. Back to Main Menu")
+                stu_choice = input("Enter your choice: ").strip()
+
+                if stu_choice == "1":
+                    name = input("Enter student name: ").strip()
+                    grade_class = input("Enter student class/section: ").strip()
+                    school = input("Enter student school: ").strip()
+                    contact = input("Enter contact number: ").strip()
+                    register_student(name, school, grade_class, contact)
+
+                elif stu_choice == "2":
+                    try:
+                        student_id = int(input("Enter Student ID to edit: ").strip())
+                    except ValueError:
+                        print("Invalid input! Must be a number.")
+                        continue
+
+                    name = input("Enter new name (leave blank to keep current): ").strip() or None
+                    grade_class = input("Enter new class (leave blank to keep current): ").strip() or None
+                    school = input("Enter new school (leave blank to keep current): ").strip() or None
+                    contact = input("Enter new contact (leave blank to keep current): ").strip() or None
+                    edit_student(student_id, name, school, grade_class, contact)
+
+                elif stu_choice == "3":
+                    show_students()
+                elif stu_choice == "0":
+                    break
+                else:
+                    print("Invalid choice, try again.")
 
         # Borrow Book choice
         elif choice == '3':
