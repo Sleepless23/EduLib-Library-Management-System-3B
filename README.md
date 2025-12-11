@@ -21,6 +21,8 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
     # Windows
     python -m venv venv
     venv\Scripts\activate
+      Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)
+      https://books.google.com/  (You can find the list of books and their ISBN here)
     ```
 
 3.  **Run the Application:**
@@ -30,6 +32,8 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
     ```
 
 ---
+
+
 
 ## 🛠️ Development Workflow
 
@@ -79,14 +83,14 @@ Please check off items as you complete them by updating this README in your PR (
 
 ### Phase 2: Book Management (`src/library_service.py`)
 - [x] Add Book Function
-- [ ] Edit Book Details Function
-- [ ] Delete Book Function
-- [ ] **Optional:** Google Books API integration to auto-fill details by ISBN
+- [x] Edit Book Details Function
+- [x] Delete Book Function
+- [x] **Optional:** Google Books API integration to auto-fill details by ISBN
 
 ### Phase 3: Student Management
-- [ ] Register Student (Name, Class, School, Contact)
-- [ ] Edit Student Details
-- [ ] View Student History
+- [x] Register Student (Name, Class, School, Contact)
+- [x] Edit Student Details
+- [x] View Student History
 
 ### Phase 4: Borrowing System
 - [ ] Check availability before borrowing
