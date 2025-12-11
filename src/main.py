@@ -1,5 +1,5 @@
 from src.database import initialize_db, create_connection
-from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book
+from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book
 # Added view_student_history to imports to support the feature from 'charles' branch
 from src.library_service import register_student, edit_student, show_students, view_student_history
 
@@ -77,7 +77,19 @@ def main():
 
         # Borrow Book choice
         elif choice == '3':
-            print("Feature currently under development.")
+            isbn = input("Enter ISBN to borrow: ").strip()
+            if not isbn:
+                print("ISBN is required.")
+                continue
+
+            student_id_input = input("Enter Student ID: ").strip()
+            if not student_id_input.isdigit():
+                print("Invalid Student ID! Must be a number.")
+                continue
+
+            student_id = int(student_id_input)
+
+            borrow_book(isbn, student_id)
 
         # Return Book choice
         elif choice == '4':

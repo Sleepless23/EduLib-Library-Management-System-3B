@@ -93,8 +93,8 @@ Please check off items as you complete them by updating this README in your PR (
 - [x] View Student History
 
 ### Phase 4: Borrowing System
-- [ ] Check availability before borrowing
-- [ ] **Borrow Book Function:** Record loan, set due date (auto 14 days), decrement quantity
+- [x] Check availability before borrowing
+- [x] **Borrow Book Function:** Record loan, set due date (auto 14 days), decrement quantity
 - [ ] **Return Book Function:** Update status, increment quantity
 - [ ] Prevent borrowing if student has overdue books
 

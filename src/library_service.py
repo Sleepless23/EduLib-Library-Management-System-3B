@@ -1,6 +1,7 @@
 import sqlite3
 from src.database import create_connection, update_book, delete_book
 import requests
+from datetime import date, timedelta
 
 # Existing Add Book
 def add_book(isbn, title, author, genre, quantity):
@@ -116,14 +117,56 @@ def show_students():
         print(f"ID: {s[0]} | Name: {s[1]} | Class: {s[2]} | School: {s[3]} | Contact: {s[4]}")
 
 def borrow_book(book_isbn, student_id):
-    """
-    Logic:
-    1. Check if book quantity > 0.
-    2. Check if student exists.
-    3. Insert into loans table with due_date (today + 14 days).
-    4. Decrement book quantity in books table.
-    """
-    print("Feature not implemented yet.")
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # 1. Check student
+        cursor.execute("SELECT id FROM students WHERE id = ?", (student_id,))
+        if cursor.fetchone() is None:
+            print("Error: Student not found.")
+            return
+
+        # 2. Check book
+        cursor.execute(
+            "SELECT id, title, quantity FROM books WHERE isbn = ?",
+            (book_isbn,)
+        )
+        book = cursor.fetchone()
+        if book is None:
+            print("Error: Book not found.")
+            return
+
+        book_id, title, quantity = book
+
+        if quantity < 1:
+            print(f"Sorry, '{title}' is unavailable.")
+            return
+
+        # 3. Create loan (today + 14 days)
+        borrow_date = date.today()
+        due_date = borrow_date + timedelta(days=14)
+
+        cursor.execute("""
+            INSERT INTO loans (book_id, student_id, borrow_date, due_date, status)
+            VALUES (?, ?, ?, ?, 'BORROWED')
+        """, (book_id, student_id, borrow_date.isoformat(), due_date.isoformat()))
+
+        # 4. Update book quantity
+        cursor.execute(
+            "UPDATE books SET quantity = quantity - 1 WHERE id = ?",
+            (book_id,)
+        )
+
+        conn.commit()
+        print(f"Success: '{title}' borrowed! Due on {due_date}.")
+
+    except sqlite3.Error as e:
+        conn.rollback()
+        print("Database error:", e)
+
+    finally:
+        conn.close()
 
 def return_book(loan_id):
     """
