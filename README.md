@@ -88,9 +88,9 @@ Please check off items as you complete them by updating this README in your PR (
 - [x] **Optional:** Google Books API integration to auto-fill details by ISBN
 
 ### Phase 3: Student Management
-- [ ] Register Student (Name, Class, School, Contact)
-- [ ] Edit Student Details
-- [ ] View Student History
+- [x] Register Student (Name, Class, School, Contact)
+- [x] Edit Student Details
+- [x] View Student History
 
 ### Phase 4: Borrowing System
 - [ ] Check availability before borrowing
