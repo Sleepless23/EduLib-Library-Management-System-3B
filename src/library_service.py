@@ -62,9 +62,58 @@ def remove_book(book_id):
 
 
 def register_student(name, school_name, grade_class, contact_info):
-    # Registers a new student.
-    # Logic to insert student goes here
-    print("Feature not implemented yet.")
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO students (name, school_name, grade_class, contact_info)
+        VALUES (?, ?, ?, ?)
+    """, (name, school_name, grade_class, contact_info))
+    conn.commit()
+    conn.close()
+    print(f"Student {name} registered successfully.")
+
+# Edit Student
+def edit_student(student_id, name=None, school_name=None, grade_class=None, contact_info=None):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM students WHERE id = ?", (student_id,))
+    student = cursor.fetchone()
+    if not student:
+        print("Student not found!")
+        conn.close()
+        return
+
+    # Keep old values if new ones not provided
+    name = name or student[1]
+    school_name = school_name or student[2]
+    grade_class = grade_class or student[3]
+    contact_info = contact_info or student[4]
+
+    cursor.execute("""
+        UPDATE students
+        SET name = ?, school_name = ?, grade_class = ?, contact_info = ?
+        WHERE id = ?
+    """, (name, school_name, grade_class, contact_info, student_id))
+    conn.commit()
+    conn.close()
+    print(f"Student ID {student_id} updated successfully.")
+
+# Show all Students
+def show_students():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name, grade_class, school_name, contact_info FROM students")
+    students = cursor.fetchall()
+    conn.close()
+
+    if not students:
+        print("No students registered yet.")
+        return
+
+    print("=== All Students ===")
+    for s in students:
+        print(f"ID: {s[0]} | Name: {s[1]} | Class: {s[2]} | School: {s[3]} | Contact: {s[4]}")
 
 def borrow_book(book_isbn, student_id):
     """
