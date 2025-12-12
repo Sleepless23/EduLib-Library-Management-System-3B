@@ -2,6 +2,8 @@ from src.database import initialize_db, create_connection
 from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book
 # Added view_student_history to imports to support the feature from 'charles' branch
 from src.library_service import register_student, edit_student, show_students, view_student_history
+from src.library_service import report_most_borrowed_books, report_total_books_per_school
+
 
 def print_menu():
     print("\n--- EduLib Library System ---")
@@ -97,7 +99,21 @@ def main():
 
         # Generate report
         elif choice == '5':
-            print("Feature currently under development.")
+            print("\n=== Reports Menu ===")
+            print("1. Most Borrowed Books")
+            print("2. Total Books per School")
+            print("3. Back to Main Menu")
+
+            rep_choice = input("Choose a report: ")
+
+            if rep_choice == "1":
+                report_most_borrowed_books()
+            elif rep_choice == "2":
+                report_total_books_per_school()
+            elif rep_choice == "3":
+                break
+            else:
+                print("Invalid choice.")
 
         # View Student History
         elif choice == '6':
