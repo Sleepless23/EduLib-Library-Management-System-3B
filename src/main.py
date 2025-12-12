@@ -2,6 +2,8 @@ from src.database import initialize_db, create_connection
 from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book, return_book
 from src.library_service import register_student, edit_student, show_students, view_student_history
 from src.library_service import report_most_borrowed_books, report_total_books_per_school
+# NEW IMPORT
+from src.reports import generate_overdue_reports
 
 
 def print_menu():
@@ -106,7 +108,8 @@ def main():
             print("\n=== Reports Menu ===")
             print("1. Most Borrowed Books")
             print("2. Total Books per School")
-            print("3. Back to Main Menu")
+            print("3. Overdue Books Report (CSV/PDF)")
+            print("4. Back to Main Menu")
 
             rep_choice = input("Choose a report: ")
 
@@ -115,7 +118,11 @@ def main():
             elif rep_choice == "2":
                 report_total_books_per_school()
             elif rep_choice == "3":
-                break
+                csv_name = input("CSV filename (default: overdue.csv): ").strip() or "overdue.csv"
+                pdf_name = input("PDF filename (default: overdue.pdf): ").strip() or "overdue.pdf"
+                generate_overdue_reports(csv_name, pdf_name)
+            elif rep_choice == "4":
+                pass # Just loops back
             else:
                 print("Invalid choice.")
 

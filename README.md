@@ -99,10 +99,10 @@ Please check off items as you complete them by updating this README in your PR (
 - [x] Prevent borrowing if student has overdue books
 
 ### Phase 5: Reporting
-- [ ] Report: Most Borrowed Books
-- [ ] Report: Overdue Books List
-- [ ] Report: Total Books per School
-- [ ] Export reports to CSV/PDF
+- [x] Report: Most Borrowed Books
+- [x] Report: Overdue Books List
+- [x] Report: Total Books per School
+- [x] Export reports to CSV/PDF
 
 ### Phase 6: Testing & UI
 - [ ] Write Unit Tests (`tests/`)
