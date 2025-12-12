@@ -57,3 +57,4 @@ def test_delete_book(test_db):
     conn.close()
 
     assert result is None
+

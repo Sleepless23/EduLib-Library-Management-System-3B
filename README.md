@@ -22,6 +22,7 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
     python -m venv venv
     venv\Scripts\activate
       Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)
+      Additional Note: Download reportlab by (pip install reportlab) command also.
       https://books.google.com/  (You can find the list of books and their ISBN here)
     ```
 
@@ -93,16 +94,16 @@ Please check off items as you complete them by updating this README in your PR (
 - [x] View Student History
 
 ### Phase 4: Borrowing System
-- [ ] Check availability before borrowing
-- [ ] **Borrow Book Function:** Record loan, set due date (auto 14 days), decrement quantity
-- [ ] **Return Book Function:** Update status, increment quantity
-- [ ] Prevent borrowing if student has overdue books
+- [x] Check availability before borrowing
+- [x] **Borrow Book Function:** Record loan, set due date (auto 14 days), decrement quantity
+- [x] **Return Book Function:** Update status, increment quantity
+- [x] Prevent borrowing if student has overdue books
 
 ### Phase 5: Reporting
-- [ ] Report: Most Borrowed Books
-- [ ] Report: Overdue Books List
-- [ ] Report: Total Books per School
-- [ ] Export reports to CSV/PDF
+- [x] Report: Most Borrowed Books
+- [x] Report: Overdue Books List
+- [x] Report: Total Books per School
+- [x] Export reports to CSV/PDF
 
 ### Phase 6: Testing & UI
 - [ ] Write Unit Tests (`tests/`)

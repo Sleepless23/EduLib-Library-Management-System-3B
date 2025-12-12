@@ -1,7 +1,10 @@
 from src.database import initialize_db, create_connection
-from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book
-# Added view_student_history to imports to support the feature from 'charles' branch
+from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book, return_book
 from src.library_service import register_student, edit_student, show_students, view_student_history
+from src.library_service import report_most_borrowed_books, report_total_books_per_school
+# NEW IMPORT
+from src.reports import generate_overdue_reports
+
 
 def print_menu():
     print("\n--- EduLib Library System ---")
@@ -77,21 +80,56 @@ def main():
 
         # Borrow Book choice
         elif choice == '3':
-            print("Feature currently under development.")
+            isbn = input("Enter ISBN to borrow: ").strip()
+            if not isbn:
+                print("ISBN is required.")
+                continue
+
+            student_id_input = input("Enter Student ID: ").strip()
+            if not student_id_input.isdigit():
+                print("Invalid Student ID! Must be a number.")
+                continue
+
+            student_id = int(student_id_input)
+
+            borrow_book(isbn, student_id)
 
         # Return Book choice
         elif choice == '4':
-            print("Feature currently under development.")
+            print("(Tip: Use Option 6 to find the Loan ID)")
+            try:
+                loan_id = int(input("Enter Loan ID to return: ").strip())
+                return_book(loan_id)
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
 
         # Generate report
         elif choice == '5':
-            print("Feature currently under development.")
+            print("\n=== Reports Menu ===")
+            print("1. Most Borrowed Books")
+            print("2. Total Books per School")
+            print("3. Overdue Books Report (CSV/PDF)")
+            print("4. Back to Main Menu")
+
+            rep_choice = input("Choose a report: ")
+
+            if rep_choice == "1":
+                report_most_borrowed_books()
+            elif rep_choice == "2":
+                report_total_books_per_school()
+            elif rep_choice == "3":
+                csv_name = input("CSV filename (default: overdue.csv): ").strip() or "overdue.csv"
+                pdf_name = input("PDF filename (default: overdue.pdf): ").strip() or "overdue.pdf"
+                generate_overdue_reports(csv_name, pdf_name)
+            elif rep_choice == "4":
+                pass # Just loops back
+            else:
+                print("Invalid choice.")
 
         # View Student History
         elif choice == '6':
             try:
                 student_id = int(input("Enter Student ID: ").strip())
-                # Removed 'service.' prefix to match the functional style of the rest of the file
                 view_student_history(student_id)
             except ValueError:
                 print("Invalid ID. Please enter a number.")
