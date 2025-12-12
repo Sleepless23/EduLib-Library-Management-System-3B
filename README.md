@@ -23,6 +23,7 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
     venv\Scripts\activate
       Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)
       Additional Note: Download reportlab by (pip install reportlab) command also.
+      Additional Note: Download pytest (pip install pytest) to implement user testing. Run (pytest) command afterwards in venv
       https://books.google.com/  (You can find the list of books and their ISBN here)
     ```
 
