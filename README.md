@@ -22,6 +22,7 @@ A centralized digital library system for the EduLib Schools Consortium. This sys
     python -m venv venv
     venv\Scripts\activate
       Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)
+      Additional Note: Download reportlab by (pip install reportlab) command also.
       https://books.google.com/  (You can find the list of books and their ISBN here)
     ```
 
