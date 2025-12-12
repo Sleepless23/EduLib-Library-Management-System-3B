@@ -1,6 +1,5 @@
 from src.database import initialize_db, create_connection
-from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book
-# Added view_student_history to imports to support the feature from 'charles' branch
+from src.library_service import add_book, add_book_with_isbn, edit_book, remove_book, borrow_book, return_book
 from src.library_service import register_student, edit_student, show_students, view_student_history
 
 def print_menu():
@@ -93,7 +92,12 @@ def main():
 
         # Return Book choice
         elif choice == '4':
-            print("Feature currently under development.")
+            print("(Tip: Use Option 6 to find the Loan ID)")
+            try:
+                loan_id = int(input("Enter Loan ID to return: ").strip())
+                return_book(loan_id)
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
 
         # Generate report
         elif choice == '5':
@@ -103,7 +107,6 @@ def main():
         elif choice == '6':
             try:
                 student_id = int(input("Enter Student ID: ").strip())
-                # Removed 'service.' prefix to match the functional style of the rest of the file
                 view_student_history(student_id)
             except ValueError:
                 print("Invalid ID. Please enter a number.")

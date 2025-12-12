@@ -121,13 +121,24 @@ def borrow_book(book_isbn, student_id):
     cursor = conn.cursor()
 
     try:
-        # 1. Check student
+        # 1. Check student exists
         cursor.execute("SELECT id FROM students WHERE id = ?", (student_id,))
         if cursor.fetchone() is None:
             print("Error: Student not found.")
             return
 
-        # 2. Check book
+        # 2. Check overdue loans
+        cursor.execute("""
+            SELECT COUNT(*) FROM loans
+            WHERE student_id = ? AND status = 'BORROWED' AND due_date < ?
+        """, (student_id, date.today().isoformat()))
+        overdue_count = cursor.fetchone()[0]
+
+        if overdue_count > 0:
+            print("Error: Student has overdue books. Cannot borrow until they are returned.")
+            return
+
+        # 3. Check book availability
         cursor.execute(
             "SELECT id, title, quantity FROM books WHERE isbn = ?",
             (book_isbn,)
@@ -143,7 +154,7 @@ def borrow_book(book_isbn, student_id):
             print(f"Sorry, '{title}' is unavailable.")
             return
 
-        # 3. Create loan (today + 14 days)
+        # 4. Create loan (today + 14 days)
         borrow_date = date.today()
         due_date = borrow_date + timedelta(days=14)
 
@@ -152,7 +163,7 @@ def borrow_book(book_isbn, student_id):
             VALUES (?, ?, ?, ?, 'BORROWED')
         """, (book_id, student_id, borrow_date.isoformat(), due_date.isoformat()))
 
-        # 4. Update book quantity
+        # 5. Update book quantity
         cursor.execute(
             "UPDATE books SET quantity = quantity - 1 WHERE id = ?",
             (book_id,)
@@ -169,24 +180,63 @@ def borrow_book(book_isbn, student_id):
         conn.close()
 
 def return_book(loan_id):
-    """
-    Logic:
-    1. Update loan status to 'RETURNED'.
-    2. Set return_date to today.
-    3. Increment book quantity in books table.
-    """
-    print("Feature not implemented yet.")
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # 1. Find loan
+        cursor.execute("""
+            SELECT book_id, status FROM loans WHERE id = ?
+        """, (loan_id,))
+        loan = cursor.fetchone()
+
+        if loan is None:
+            print("Error: Loan not found.")
+            return
+
+        book_id, status = loan
+
+        if status != "BORROWED":
+            print("Error: Loan is not currently active.")
+            return
+
+        # 2. Update loan status + return_date
+        return_date = date.today()
+        cursor.execute("""
+            UPDATE loans
+            SET status = 'RETURNED', return_date = ?
+            WHERE id = ?
+        """, (return_date.isoformat(), loan_id))
+
+        # 3. Increment book quantity
+        cursor.execute("""
+            UPDATE books
+            SET quantity = quantity + 1
+            WHERE id = ?
+        """, (book_id,))
+
+        conn.commit()
+        print(f"Success: Book returned on {return_date}.")
+
+    except sqlite3.Error as e:
+        conn.rollback()
+        print("Database error:", e)
+
+    finally:
+        conn.close()
 
 def view_student_history(student_id):
     conn = create_connection()
     cursor = conn.cursor()
     try:
         sql = """
-        SELECT loan_id, book_isbn, loan_date, due_date, return_date, status
-        FROM loans
-        WHERE student_id = ?
-        ORDER BY loan_date DESC
+            SELECT l.id, b.isbn, l.borrow_date, l.due_date, l.return_date, l.status
+            FROM loans l
+            JOIN books b ON l.book_id = b.id
+            WHERE l.student_id = ?
+            ORDER BY l.borrow_date DESC
         """
+        
         cursor.execute(sql, (student_id,))
         rows = cursor.fetchall()
 
@@ -195,18 +245,20 @@ def view_student_history(student_id):
             return
 
         print(f"{'Loan ID':<8} {'ISBN':<15} {'Loan Date':<12} {'Due Date':<12} {'Return Date':<12} {'Status'}")
-        print("-" * 70)
+        print("-" * 75)
 
-        for loan_id, isbn, loan_date, due_date, return_date, status in rows:
-            print(f"{loan_id:<8} {isbn:<15} {loan_date:<12} {due_date:<12} {str(return_date):<12} {status}")
+        for loan_id, isbn, borrow_date, due_date, return_date, status in rows:
+            # Handle None return_date (if book hasn't been returned yet)
+            r_date = str(return_date) if return_date else "---"
+            
+            # Print formatted row
+            print(f"{loan_id:<8} {isbn:<15} {borrow_date:<12} {due_date:<12} {r_date:<12} {status}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error fetching history: {e}")
 
     finally:
         conn.close()
-
-
 
 def generate_report_books_per_school():
     # Generates a report of books distribution.
