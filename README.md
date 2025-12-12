@@ -1,111 +1,112 @@
-# EduLib-Library-Management-System-3B
+# EduLib - Library Management System
+
+A centralized digital library system for the EduLib Schools Consortium. This system replaces Excel/paper records to manage books, students, and loans across 14 schools.
+
+## 🚀 Getting Started
+
+### Prerequisites
+*   Python 3.8+
+*   Git
+
+### Installation & Setup
+
+1.  **Clone the branch:**
+    ```bash
+    git clone -b development https://github.com/Sleepless23/EduLib-Library-Management-System-3B.git
+    cd edulib-system
+    ```
+
+2.  **Create and activate a virtual environment:**
+    ```bash
+    # Windows
+    python -m venv venv
+    venv\Scripts\activate
+      Notes from Bon: Download requests by (pip install requests) command and be sure you are inside your virtual environment(venv)
+      Additional Note: Download reportlab by (pip install reportlab) command also.
+      Additional Note: Download pytest (pip install pytest) to implement user testing. Run (pytest) command afterwards in venv
+      https://books.google.com/  (You can find the list of books and their ISBN here)
+    ```
+
+3.  **Run the Application:**
+    This will initialize the SQLite database automatically on the first run.
+    ```bash
+    python -m src.main
+    ```
+
+---
 
 
-Library Management & Book Tracking System — Client Problem Statement
-Client Information
 
-Client Name: Henry Moreno
-Position: Operations Manager
-Organization: EduLib Schools Consortium
-Type: Private School Network (14 schools)
+## 🛠️ Development Workflow
 
-📌 Background
+We follow a feature-branch workflow. **Do not push directly to `main` or `development`.**
 
-EduLib Schools Consortium currently manages library records using Excel sheets and handwritten logbooks. This has resulted in missing books, inconsistent records, and difficulties tracking which school holds which materials.
+1.  Checkout the development branch: `git checkout development`
+2.  Pull latest changes: `git pull origin development`
+3.  Create your feature branch: `git checkout -b feature/your-feature-name`
+4.  Commit your changes.
+5.  Push and open a Pull Request (PR) to `development`.
 
-The organization wants to transition to a centralized digital library system that is easy for librarians—many of whom have limited ICT skills—to use effectively.
+This is to ensure quality control and prevent accidental pushing of buggy code to the main/dev branch.
 
-🔥 Current Problems
+---
 
-All library records (books, borrowers, returns) are stored in paper files or Excel, causing frequent data loss and errors.
+## 📜 Project Architecture:
+The file structure of the project, when finished, should look something like this:
 
-Books are often lost or unreturned, with no automated overdue tracking.
+```
+edulib-system/
+│
+├── docs/                  # SDLC & Waterfall documentation
+├── src/                   # Source Code
+│   ├── database.py        # SQL connections & table creation
+│   ├── models.py          # Data classes (Book, Student)
+│   ├── library_service.py # Logic (Borrow, Return, Add logic)
+│   ├── main.py            # The Menu / User Interface
+│   └── __init__.py        # Makes 'src' a package
+│
+├── tests/                 # Unit tests
+├── .gitignore             # Git ignore file
+├── README.md              # Project documentation
+└── requirements.txt       # Dependencies
+```
 
-New book entries are typed manually, resulting in wrong titles, authors, and genres.
+---
 
-Administrators cannot easily generate reports such as:
+## ✅ Project Task List (TODO)
 
-Most borrowed books
+Please check off items as you complete them by updating this README in your PR (Pull Request).
 
-Books per school
+### Phase 1: Core Database & Models
+- [x] Setup Project Structure
+- [x] Implement SQLite Connection (`src/database.py`)
+- [x] Define Database Schema (Books, Students, Loans tables)
+- **NOTE: The 'edulib.db' file is included in .gitignore to ensure local data does not get uploaded to GitHub. You will generate your own 'edulib.db' when you run the code**
 
-Overdue books
+### Phase 2: Book Management (`src/library_service.py`)
+- [x] Add Book Function
+- [x] Edit Book Details Function
+- [x] Delete Book Function
+- [x] **Optional:** Google Books API integration to auto-fill details by ISBN
 
-No standardized system across the 14 school libraries.
+### Phase 3: Student Management
+- [x] Register Student (Name, Class, School, Contact)
+- [x] Edit Student Details
+- [x] View Student History
 
-🎯 Project Goal
+### Phase 4: Borrowing System
+- [x] Check availability before borrowing
+- [x] **Borrow Book Function:** Record loan, set due date (auto 14 days), decrement quantity
+- [x] **Return Book Function:** Update status, increment quantity
+- [x] Prevent borrowing if student has overdue books
 
-To build a simple, reliable Library Management & Book Tracking System that improves accountability, reduces book loss, and standardizes library operations across all EduLib schools.
+### Phase 5: Reporting
+- [x] Report: Most Borrowed Books
+- [x] Report: Overdue Books List
+- [x] Report: Total Books per School
+- [x] Export reports to CSV/PDF
 
-🖥️ System Requirements
-✔ 1. Book Management
-
-Add new books
-
-Edit book details
-
-Delete books
-
-Store ISBN, title, author, genre, and quantity
-
-(Optional) Automatically fill book details using the Google Books API when ISBN is entered
-
-✔ 2. Student Management
-
-Register students with:
-
-Full name
-
-Class
-
-School
-
-Contact information
-
-✔ 3. Borrowing & Returning
-
-Record when a student borrows a book
-
-Auto-generate due dates
-
-Track overdue books
-
-Mark books as returned
-
-Prevent borrowing if no copies are available
-
-✔ 4. Reporting
-
-System should generate useful reports such as:
-
-Most Borrowed Books Report
-
-Overdue Books List
-
-Total Books per School
-
-Borrowing History per Student
-
-Reports should be exportable as PDF or CSV.
-
-✔ 5. User Experience Requirements
-
-System must be clean and easy for non-technical librarians
-
-Clear menus and instructions
-
-Must work even with slow internet or offline (depending on solution type)
-
-🛠️ Technical Requirements
-
-Python-based backend
-
-Optional Flask web interface or CLI interface
-
-SQLite or PostgreSQL database
-
-Git (feature-branch workflow)
-
-Proper SDLC documentation following the Waterfall Model
-
-Unit tests for key features (book creation, borrowing, etc.)
+### Phase 6: Testing & UI
+- [x] Write Unit Tests (`tests/`)
+- [x] Update CLI Menu in `src/main.py` to connect all functions
+- [x] Final User Testing
