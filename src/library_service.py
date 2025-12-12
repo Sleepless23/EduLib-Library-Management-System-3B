@@ -260,6 +260,59 @@ def view_student_history(student_id):
     finally:
         conn.close()
 
-def generate_report_books_per_school():
-    # Generates a report of books distribution.
-    print("Feature not implemented yet.")
+def report_most_borrowed_books():
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    sql = """
+    SELECT b.title, b.author, COUNT(l.id) AS borrow_count
+    FROM loans l
+    JOIN books b ON l.book_id = b.id
+    GROUP BY b.id
+    HAVING borrow_count > 0
+    ORDER BY borrow_count DESC
+    LIMIT 10;
+    """
+
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        print("\nNo borrowing data available yet.")
+        return
+
+    print("\n=== Most Borrowed Books ===")
+    print(f"{'Title':<40} {'Author':<25} {'Times Borrowed'}")
+    print("-" * 80)
+
+    for title, author, count in rows:
+        print(f"{title:<40} {author:<25} {count}")
+
+def report_total_books_per_school():
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    sql = """
+    SELECT s.school_name, COUNT(l.id) AS total_borrowed
+    FROM loans l
+    JOIN students s ON l.student_id = s.id
+    GROUP BY s.school_name
+    HAVING total_borrowed > 0
+    ORDER BY total_borrowed DESC;
+    """
+
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        print("\nNo borrowing activity yet.")
+        return
+
+    print("\n=== Total Borrowed Books Per School ===")
+    print(f"{'School':<40} {'Books Borrowed'}")
+    print("-" * 60)
+
+    for school, total in rows:
+        print(f"{school:<40} {total}")
