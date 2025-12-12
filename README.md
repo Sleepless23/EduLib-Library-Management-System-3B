@@ -106,6 +106,6 @@ Please check off items as you complete them by updating this README in your PR (
 - [x] Export reports to CSV/PDF
 
 ### Phase 6: Testing & UI
-- [ ] Write Unit Tests (`tests/`)
-- [ ] Update CLI Menu in `src/main.py` to connect all functions
-- [ ] Final User Testing
+- [x] Write Unit Tests (`tests/`)
+- [x] Update CLI Menu in `src/main.py` to connect all functions
+- [x] Final User Testing
